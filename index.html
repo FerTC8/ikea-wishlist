@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0058a3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>IKEA Wishlist Shopping Board</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 16px;
+    color: #111;
+    background-color: #f7f7f7;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #0058a3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0;
+    color: #0058a3;
+  }
+  .cart-counter {
+    font-size: 13px;
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #c8e6c9;
+  }
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0058a3;
+    margin: 24px 0 12px 4px;
+  }
+  .viz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+  @media (min-width: 768px) {
+    .viz-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .item-card {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .item-card.in-cart {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+  }
+  .item-card.in-cart .img-container img {
+    opacity: 0.65;
+  }
+  .item-card.in-cart .item-title {
+    color: #15803d;
+  }
+  .img-container {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .viz-grid img {
+    max-width: 100%;
+    max-height: 125px;
+    object-fit: contain;
+  }
+  .info {
+    font-size: 13px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .item-title {
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .item-price {
+    font-weight: 700;
+    color: #0058a3;
+  }
+  .item-detail {
+    color: #666;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .cart-btn {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #0058a3;
+    background: #fff;
+    color: #0058a3;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cart-btn:active {
+    transform: scale(0.97);
+  }
+  .item-card.in-cart .cart-btn {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+  }
+  .badge-check {
+    display: none;
+    font-size: 13px;
+  }
+  .item-card.in-cart .badge-check {
+    display: inline;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>IKEA Wishlist</h1>
+    <div style="font-size: 12px; color: #666;">Tap button when added to cart</div>
+  </div>
+  <div class="cart-counter" id="counter">0 / 13 In Cart</div>
+</header>
+
+<div id="ikea-shopping-board">
+  <h2>Kitchen & dishwashing</h2>
+  <div class="viz-grid">
+    <div class="item-card" data-id="item-00451059">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-00451059" target="_blank"><img src="images/item-00451059.jpg" alt="Dark gray NYSKÖLJD dish drying mat"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-00451059" target="_blank">NYSKÖLJD drying mat</a></div>
+        <div class="item-price">$79</div>
+        <div class="item-detail">44 × 36 cm · Dark grey</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-00451059')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-80595445">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-80595445" target="_blank"><img src="images/item-80595445.jpg" alt="Black RINNIG sink container"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-80595445" target="_blank">RINNIG sink container</a></div>
+        <div class="item-price">$49</div>
+        <div class="item-detail">Black</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-80595445')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-10595439">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-10595439" target="_blank"><img src="images/item-10595439.jpg" alt="Gray-green SVAMPIG sponges"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-10595439" target="_blank">SVAMPIG sponges</a></div>
+        <div class="item-price">$29</div>
+        <div class="item-detail">3-pack · Grey-green</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-10595439')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-70387258">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-70387258" target="_blank"><img src="images/item-70387258.jpg" alt="RINNIG plate holder"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-70387258" target="_blank">RINNIG plate holder</a></div>
+        <div class="item-price">$99</div>
+        <div class="item-detail">Dish drainer accessory</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-70387258')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-s29567101">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/SPR-s29567101" target="_blank"><img src="images/item-s29567101.jpg" alt="Clear rectangular IKEA 365 food container"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/SPR-s29567101" target="_blank">IKEA 365+ container</a></div>
+        <div class="item-price">$119</div>
+        <div class="item-detail">2 L · Rectangular / plastic</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-s29567101')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+  </div>
+
+  <h2>Cleaning & laundry</h2>
+  <div class="viz-grid">
+    <div class="item-card" data-id="item-40567637">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-40567637" target="_blank"><img src="images/item-40567637.jpg" alt="PEPPRIG microfiber cloths"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-40567637" target="_blank">PEPPRIG microfiber cloths</a></div>
+        <div class="item-price">$49</div>
+        <div class="item-detail">3-pack · Multi-color</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-40567637')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-80567621">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-80567621" target="_blank"><img src="images/item-80567621.jpg" alt="PEPPRIG cleaning set"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-80567621" target="_blank">PEPPRIG cleaning set</a></div>
+        <div class="item-price">$699</div>
+        <div class="item-detail">Blue / yellow</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-80567621')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-90425626">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-90425626" target="_blank"><img src="images/item-90425626.jpg" alt="BÄSTIS lint roller"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-90425626" target="_blank">BÄSTIS lint roller</a></div>
+        <div class="item-price">$15</div>
+        <div class="item-detail">7.5 m · Grey</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-90425626')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-80242892">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-80242892" target="_blank"><img src="images/item-80242892.jpg" alt="JÄLL drying rack"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-80242892" target="_blank">JÄLL drying rack</a></div>
+        <div class="item-price">$249</div>
+        <div class="item-detail">In/outdoor · White folding</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-80242892')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+  </div>
+
+  <h2>Furniture</h2>
+  <div class="viz-grid">
+    <div class="item-card" data-id="item-00487015">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-00487015" target="_blank"><img src="images/item-00487015.jpg" alt="LAGKAPTEN tabletop"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-00487015" target="_blank">LAGKAPTEN tabletop</a></div>
+        <div class="item-price">$799</div>
+        <div class="item-detail">120 × 60 cm · Black-brown</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-00487015')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-30264301">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-30264301" target="_blank"><img src="images/item-30264301.jpg" alt="OLOV adjustable leg"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-30264301" target="_blank">OLOV adjustable leg × 4</a></div>
+        <div class="item-price">$800 total</div>
+        <div class="item-detail">Black · $200 each</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-30264301')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+
+    <div class="item-card" data-id="item-30498418">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-30498418" target="_blank"><img src="images/item-30498418.jpg" alt="STIG bar stool"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-30498418" target="_blank">STIG bar stool</a></div>
+        <div class="item-price">$549</div>
+        <div class="item-detail">63 cm · Counter-height · Black</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-30498418')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+  </div>
+
+  <h2>Lighting</h2>
+  <div class="viz-grid">
+    <div class="item-card" data-id="item-20544307">
+      <div class="img-container">
+        <a href="https://www.ikea.com/MX/en/p/ART-20544307" target="_blank"><img src="images/item-20544307.jpg" alt="VIDJA floor lamp"></a>
+      </div>
+      <div class="info">
+        <div class="item-title"><a href="https://www.ikea.com/MX/en/p/ART-20544307" target="_blank">VIDJA floor lamp</a></div>
+        <div class="item-price">$1,299</div>
+        <div class="item-detail">138 cm · White · In-store only</div>
+      </div>
+      <button class="cart-btn" onclick="toggleCart('item-20544307')"><span class="badge-check">✓</span> <span class="btn-text">Put in Cart</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateCounter() {
+    const total = document.querySelectorAll('.item-card').length;
+    const checked = document.querySelectorAll('.item-card.in-cart').length;
+    document.getElementById('counter').textContent = checked + ' / ' + total + ' In Cart';
+  }
+
+  function toggleCart(id) {
+    const card = document.querySelector(`.item-card[data-id="${id}"]`);
+    if (!card) return;
+    const isCart = card.classList.toggle('in-cart');
+    const btnText = card.querySelector('.btn-text');
+    if (isCart) {
+      btnText.textContent = 'In Cart';
+      localStorage.setItem('ikea_cart_' + id, '1');
+    } else {
+      btnText.textContent = 'Put in Cart';
+      localStorage.removeItem('ikea_cart_' + id);
+    }
+    updateCounter();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.item-card').forEach(card => {
+      const id = card.getAttribute('data-id');
+      if (localStorage.getItem('ikea_cart_' + id) === '1') {
+        card.classList.add('in-cart');
+        const btnText = card.querySelector('.btn-text');
+        if (btnText) btnText.textContent = 'In Cart';
+      }
+    });
+    updateCounter();
+  });
+</script>
+
+</body>
+</html>
